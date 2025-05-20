@@ -4,12 +4,12 @@ const mapFunctions = {
     "randomNumber": randomNumber,
 }
 
-function printTemplateValues(obj, path = '') {
+function templateReplacer(obj, path = '') {
     for (const key in obj) {
         const value = obj[key];
         const currentPath = path ? `${path}.${key}` : key;
         if (typeof value === 'object' && value !== null) {
-            printTemplateValues(value, currentPath);
+            templateReplacer(value, currentPath);
         } else {
             if (typeof value === 'string' && value[0] === '$') {
                 const match = value.match(/^\$(\w+)\(/);
@@ -26,7 +26,7 @@ function printTemplateValues(obj, path = '') {
 }
 
 function processTemplate(template) {
-    let result = printTemplateValues(template);
+    let result = templateReplacer(template);
     console.log(JSON.stringify(result, null, 2));
     return template
 }

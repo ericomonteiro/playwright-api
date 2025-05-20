@@ -3,5 +3,9 @@
     "value": "$randomString(10)",
     "name": "$randomString(20)",
     "int": "$randomNumber(4)"
+  },
+  "otherNode": {
+    "fixValue": "abc",
+    "randomString": "$randomString(40)"
   }
 }
