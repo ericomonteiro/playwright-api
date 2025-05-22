@@ -1,4 +1,5 @@
 {
+  "name": "$oneOfList('names.json')",
   "node": {
     "value": "$randomString(10)",
     "name": "$randomString(20)",

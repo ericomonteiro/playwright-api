@@ -2,7 +2,11 @@
 const mapFunctions = {
     "randomString": randomString,
     "randomNumber": randomNumber,
+    "oneOfList": oneOfList
 }
+
+const fs = require('fs');
+const path = require('path');
 
 function templateReplacer(obj, path = '') {
     for (const key in obj) {
@@ -55,6 +59,17 @@ function randomNumber(params) {
         result += randomIndex;
     }
     return parseInt(result);
+}
+
+function oneOfList(params) {
+    let listsFolder = '../lists/'
+    let listFileName = extractParams(params).replaceAll("'", "");
+    let filePath = path.join(__dirname, listsFolder, listFileName);
+    let fileContent = fs.readFileSync(filePath, 'utf-8');
+    let list = JSON.parse(fileContent);
+    let randomIndex = Math.floor(Math.random() * list.length);
+
+    return list[randomIndex];
 }
 
 module.exports = { processTemplate };
