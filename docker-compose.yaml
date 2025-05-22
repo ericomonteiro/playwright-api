@@ -1,0 +1,19 @@
+version: '3.5'
+services:
+  stubby4j-jre11:
+    user: root
+    image: azagniotov/stubby4j:latest-jre11
+    volumes:
+      - "./docker-volumes/stubby4j:/home/stubby4j/data"
+    container_name: stubby4j_jre11
+    ports:
+      - "8884:8884"
+      - "8891:8891"
+      - "7445:7445"
+    environment:
+      YAML_CONFIG: smoke-tests-stubs.yaml
+      LOCATION: 0.0.0.0
+      STUBS_PORT: 8884
+      ADMIN_PORT: 8891
+      STUBS_TLS_PORT: 7445
+      WITH_ARGS: "--enable_tls_with_alpn_and_http_2 --debug --watch"
