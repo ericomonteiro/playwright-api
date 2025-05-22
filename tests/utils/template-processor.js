@@ -2,11 +2,13 @@
 const mapFunctions = {
     "randomString": randomString,
     "randomNumber": randomNumber,
-    "oneOfList": oneOfList
+    "oneOfList": oneOfList,
+    "generateUUID": generateUUID,
 }
 
 const fs = require('fs');
 const path = require('path');
+const {randomUUID} = require("node:crypto");
 
 function templateReplacer(obj, path = '') {
     for (const key in obj) {
@@ -70,6 +72,10 @@ function oneOfList(params) {
     let randomIndex = Math.floor(Math.random() * list.length);
 
     return list[randomIndex];
+}
+
+function generateUUID() {
+    return randomUUID()
 }
 
 module.exports = { processTemplate };
