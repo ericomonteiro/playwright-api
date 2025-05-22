@@ -1,4 +1,5 @@
-# playwright-apis ![playwright-logo.svg](static/playwright-logo.svg)
+# playwright-apis<img src="static/playwright-logo.svg" alt="drawing" width="32"/>
+
 ## Profiles
 
 The project supports multiple configuration profiles to make it easy to run tests in different environments (e.g., local, staging, production).
