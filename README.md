@@ -1,5 +1,4 @@
-# playwright-api
-
+# playwright-apis ![playwright-logo.svg](static/playwright-logo.svg)
 ## Profiles
 
 The project supports multiple configuration profiles to make it easy to run tests in different environments (e.g., local, staging, production).
@@ -16,11 +15,11 @@ When tests start, the active profile is automatically loaded and its settings ar
 ### Example
 
 Content of `tests/configs/config.json`:
-```json
-{
-	"active_profile": "local_mock"
-}
-```
+   ```json
+   {
+      "active_profile": "local_mock"
+   }
+   ```
 
 ## Template Processor
 
