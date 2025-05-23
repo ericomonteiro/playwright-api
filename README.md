@@ -111,3 +111,19 @@ docker-compose up -d
 - Lists must be in the `tests/lists/` folder.
 - The processor can be used in any test to quickly generate dynamic data.
 
+## Running
+
+### Install dependencies
+```bash
+npm install
+```
+
+### Start mock server
+```bash
+docker-compose up -d
+```
+
+### Running all tests
+```bash
+npx playwright test
+```
