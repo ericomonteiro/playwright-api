@@ -23,6 +23,8 @@ function templateReplacer(obj, path = '') {
                 if (functionName && mapFunctions[functionName]) {
                     let func = mapFunctions[functionName];
                     obj[key] = func(value);
+                } else {
+                    throw new Error(`Function not found: ${functionName}`);
                 }
             }
         }
@@ -64,13 +66,27 @@ function randomNumber(params) {
 }
 
 function oneOfList(params) {
-    let listsFolder = '../lists/'
+    let listsFolder = '../lists/';
     let listFileName = extractParams(params).replaceAll("'", "");
     let filePath = path.join(__dirname, listsFolder, listFileName);
-    let fileContent = fs.readFileSync(filePath, 'utf-8');
-    let list = JSON.parse(fileContent);
-    let randomIndex = Math.floor(Math.random() * list.length);
 
+    if (!fs.existsSync(filePath)) {
+        throw new Error(`File not found: ${filePath}`);
+    }
+
+    let fileContent = fs.readFileSync(filePath, 'utf-8');
+    let list;
+    try {
+        list = JSON.parse(fileContent);
+    } catch (e) {
+        throw new Error(`Invalid JSON in file: ${filePath}`);
+    }
+
+    if (!Array.isArray(list)) {
+        throw new Error(`File content is not a JSON array: ${filePath}`);
+    }
+
+    let randomIndex = Math.floor(Math.random() * list.length);
     return list[randomIndex];
 }
 
