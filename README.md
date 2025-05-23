@@ -25,16 +25,20 @@ The template processor reads a JSON object and replaces values that start with `
 1. Create a JSON template, for example in `tests/payloads/template.json`:
 
     ```json
-    {
-      "id": "$generateUUID()",
-      "name": "$oneOfList('names.json')",
-      "phone": "$oneOfList('phones.json')",
-      "node": {
-        "value": "$randomString(10)",
-        "name": "$randomString(20)",
-        "int": "$randomNumber(4)"
-      }
-    }
+   {
+     "id": "$generateUUID()",
+     "name": "$oneOfList('names.json')",
+     "phone": "$oneOfList('phones.json')",
+     "node": {
+       "value": "$randomString(10)",
+       "name": "$randomString(20)",
+       "int": "$randomNumber(4)"
+     },
+     "otherNode": {
+       "fixValue": "abc",
+       "randomString": "$randomString(40)"
+     }
+   }
     ```
 
 2. In your test, import the template and the processor:
