@@ -1,43 +1,26 @@
 # playwright-apis<img src="static/playwright-logo.svg" alt="drawing" width="32"/>
 
-## Profiles
+## Overview
+This project is a collection of Playwright tests designed to validate the functionality of various APIs. It includes a set of reusable functions and utilities to facilitate the testing process.
 
-The project supports multiple configuration profiles to make it easy to run tests in different environments (e.g., local, staging, production).
+## Functionalities
 
-Profile configurations are stored in the `tests/configs/` folder:
-
-- The `config.json` file defines the active profile using the `active_profile` key.
-- Each profile has its own file, such as `local_mock.json`, containing specific settings (e.g., `baseUrl`).
-
-### How it works
-
-When tests start, the active profile is automatically loaded and its settings are used by Playwright, such as the base URL for tests.
-
-### Example
-
-Content of `tests/configs/config.json`:
-   ```json
-   {
-      "active_profile": "local_mock"
-   }
-   ```
-
-## Template Processor
+### Template Processor
 
 This project includes a template processor that allows you to generate dynamic payloads for tests by replacing special commands with random or list-based values.
 
-### How it works
+#### How it works
 
 The template processor reads a JSON object and replaces values that start with `$` with dynamically generated data, such as random strings, numbers, UUIDs, or values from lists.
 
-#### Supported functions
+##### Supported functions
 
 - `$randomString(n)`: Generates a random string with `n` characters.
 - `$randomNumber(n)`: Generates a random number with `n` digits.
 - `$oneOfList('file.json')`: Randomly selects an item from a list in the specified file (the file must be in folder `./tests/lists`).
 - `$generateUUID()`: Generates a UUID v4.
 
-### Usage example
+#### Usage example
 
 1. Create a JSON template, for example in `tests/payloads/template.json`:
 
@@ -83,6 +66,41 @@ The template processor reads a JSON object and replaces values that start with `
        }
    }
     ```
+
+### Profiles
+
+The project supports multiple configuration profiles to make it easy to run tests in different environments (e.g., local, staging, production).
+
+Profile configurations are stored in the `tests/configs/` folder:
+
+- The `config.json` file defines the active profile using the `active_profile` key.
+- Each profile has its own file, such as `local_mock.json`, containing specific settings (e.g., `baseUrl`).
+
+#### How it works
+
+When tests start, the active profile is automatically loaded and its settings are used by Playwright, such as the base URL for tests.
+
+#### Example
+
+Content of `tests/configs/config.json`:
+   ```json
+   {
+      "active_profile": "local_mock"
+   }
+   ```
+
+Content of `tests/configs/local_mock.json`:
+   ```json
+   {
+      "baseUrl": "http://localhost:3000",
+   }
+   ```
+Note: `http://localhost:3000` is the default URL for the mock server.
+
+To run mockserver (needs docker installed):
+```bash
+docker-compose up -d
+```
 
 ## Notes
 
