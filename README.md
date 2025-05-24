@@ -15,29 +15,32 @@ The template processor reads a JSON object and replaces values that start with `
 
 ##### Supported functions
 
-- `$randomString(n)`: Generates a random string with `n` characters.
-- `$randomNumber(n)`: Generates a random number with `n` digits.
-- `$oneOfList('file.js')`: Randomly selects an item from a list in the specified file (the file must be in folder `./tests/lists`).
-- `$generateUUID()`: Generates a UUID v4.
+- `randomString(n)`: Generates a random string with `n` characters.
+- `randomNumber(n)`: Generates a random number with `n` digits.
+- `oneOfList('file.js')`: Randomly selects an item from a list in the specified file (the file must be in folder `./tests/lists`).
+- `generateUUID()`: Generates a UUID v4.
 
 #### Usage example
 
-1. Create a JSON template, for example in `tests/payloads/template.json`:
+1. Create a JS template, for example in `tests/payloads/template.js`:
 
     ```js
+   import {randomUUID} from "node:crypto";
+   import {oneOfList, randomNumber, randomString} from "../utils/template-processor";
+   
    const sampleTemplate = {
-       id: "$generateUUID()",
-       name: "$oneOfList('names.js')",
-       phone: "$oneOfList('phones.js')",
-       address: "$oneOfList('addresses.js')",
+       id: randomUUID(),
+       name: oneOfList("names.js"),
+       phone: oneOfList('phones.js'),
+       address: oneOfList('addresses.js'),
        node: {
-           value: "$randomString(10)",
-           name: "$randomString(20)",
-           int: "$randomNumber(4)"
+           value: randomString(10),
+           name: randomString(20),
+           int: randomNumber(4)
        },
        otherNode: {
            fixValue: "abc",
-           randomString: "$randomString(40)"
+           randomString: randomString(40)
        }
    };
    
@@ -48,10 +51,9 @@ The template processor reads a JSON object and replaces values that start with `
 
     ```javascript
     import sampleTemplate from "./payloads/template";
-    import { processTemplate } from './utils/template-processor.js';
-
+   
     test('process template', async () => {
-      processTemplate(sampleTemplate);
+      console.log(JSON.stringify(sampleTemplate, null, 2));
     });
     ```
 
@@ -88,29 +90,23 @@ To create and use a new dynamic function in the template processor, follow these
    In `tests/utils/template-processor.js`, create a new function that receives the necessary parameters.  
    Example:
    ```javascript
-   function randomEmail(params) {
+   function randomEmail() {
      // Your logic to generate a random email
      return `user${Math.floor(Math.random() * 1000)}@example.com`;
    }
-   ```
-
-2. **Add the function to the `mapFunctions` object**</br>Include your new function in the mapFunctions object:
-    ```javascript
-    const mapFunctions = {
-      randomEmail: randomEmail,
-      // other functions...
-    };
-    ```
    
-3. **Use the function in your template**</br>In your JSON template, you can now use the new function by prefixing it with `$`:
-   ```json
+   module.exports = { ..., randomEmail };
+   ```
+   
+2. **Use the function in your template**
+   ```js
+   import {randomEmail} from "../utils/template-processor";
+   
    {
-     "email": "$randomEmail()"
+     email: randomEmail()
    }
    ```
-4. **Process the template as usual**</br>The value will be replaced by the result of your function during template processing.
-
-**Note:** Make sure the function name in the template matches exactly the name registered in `mapFunctions`.
+3. **Process the template as usual**</br>The value will be replaced by the result of your function during template processing.
 
 ### Profiles
 
@@ -128,16 +124,16 @@ When tests start, the active profile is automatically loaded and its settings ar
 #### Example
 
 Content of `tests/configs/config.json`:
-   ```json
+   ```js
    {
-      "active_profile": "local_mock"
+      activeProfile: "local_mock"
    }
    ```
 
 Content of `tests/configs/local_mock.json`:
-   ```json
+   ```js
    {
-      "baseUrl": "http://localhost:3000",
+      baseUrl: "http://localhost:3000"
    }
    ```
 Note: `http://localhost:3000` is the default URL for the mock server.
