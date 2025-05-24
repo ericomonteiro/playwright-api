@@ -27,8 +27,8 @@ The template processor reads a JSON object and replaces values that start with `
     ```json
    {
      "id": "$generateUUID()",
-     "name": "$oneOfList('names.json')",
-     "phone": "$oneOfList('phones.json')",
+     "name": "$oneOfList('names.js')",
+     "phone": "$oneOfList('phones.js')",
      "node": {
        "value": "$randomString(10)",
        "name": "$randomString(20)",

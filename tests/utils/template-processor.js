@@ -9,6 +9,8 @@ const mapFunctions = {
 const fs = require('fs');
 const path = require('path');
 const {randomUUID} = require("node:crypto");
+const {loadDefaultExport} = require("./modules");
+
 
 function templateReplacer(obj, path = '') {
     for (const key in obj) {
@@ -74,13 +76,7 @@ function oneOfList(params) {
         throw new Error(`File not found: ${filePath}`);
     }
 
-    let fileContent = fs.readFileSync(filePath, 'utf-8');
-    let list;
-    try {
-        list = JSON.parse(fileContent);
-    } catch (e) {
-        throw new Error(`Invalid JSON in file: ${filePath}`);
-    }
+    let list = loadDefaultExport(filePath)
 
     if (!Array.isArray(list)) {
         throw new Error(`File content is not a JSON array: ${filePath}`);

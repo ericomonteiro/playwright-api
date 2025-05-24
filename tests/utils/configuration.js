@@ -1,6 +1,7 @@
-import configs from '../configs/config.json';
+import configs from '../configs/config.js';
+import {loadDefaultExport} from "./modules";
 
 export function loadProfileConfig() {
-    const profilePath = `../configs/${configs.active_profile}.json`;
-    return require(profilePath);
+    const profilePath = `../configs/profile_${configs.activeProfile}.js`;
+    return loadDefaultExport(profilePath);
 }
