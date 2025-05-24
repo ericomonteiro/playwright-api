@@ -1,10 +1,10 @@
 // @ts-check
 import { test } from '@playwright/test';
-import templateBody from './payloads/template.json';
-import { processTemplate } from './utils/template-processor.js';
+import sampleTemplate from "./payloads/template";
+import { processTemplate } from './utils/template-processor';
 
 test('process template', async ({ }) => {
-  processTemplate(templateBody)
+  processTemplate(sampleTemplate)
 });
 
 test('request to mock server', async ({ request }) => {

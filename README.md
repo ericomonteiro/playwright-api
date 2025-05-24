@@ -44,11 +44,11 @@ The template processor reads a JSON object and replaces values that start with `
 2. In your test, import the template and the processor:
 
     ```javascript
-    import templateBody from './payloads/template.json';
+    import sampleTemplate from "./payloads/template";
     import { processTemplate } from './utils/template-processor.js';
 
     test('process template', async () => {
-      processTemplate(templateBody);
+      processTemplate(sampleTemplate);
     });
     ```
 
@@ -70,6 +70,38 @@ The template processor reads a JSON object and replaces values that start with `
        }
    }
     ```
+
+#### How to Add a New Function to the Template Processor
+
+To create and use a new dynamic function in the template processor, follow these steps:
+
+1. **Implement the function**</br>Include your new function in the mapFunctions object:
+   In `tests/utils/template-processor.js`, create a new function that receives the necessary parameters.  
+   Example:
+   ```javascript
+   function randomEmail(params) {
+     // Your logic to generate a random email
+     return `user${Math.floor(Math.random() * 1000)}@example.com`;
+   }
+   ```
+
+2. **Add the function to the `mapFunctions` object**</br>Include your new function in the mapFunctions object:
+    ```javascript
+    const mapFunctions = {
+      randomEmail: randomEmail,
+      // other functions...
+    };
+    ```
+   
+3. **Use the function in your template**</br>In your JSON template, you can now use the new function by prefixing it with `$`:
+   ```json
+   {
+     "email": "$randomEmail()"
+   }
+   ```
+4. **Process the template as usual**</br>The value will be replaced by the result of your function during template processing.
+
+**Note:** Make sure the function name in the template matches exactly the name registered in `mapFunctions`.
 
 ### Profiles
 
