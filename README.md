@@ -17,28 +17,31 @@ The template processor reads a JSON object and replaces values that start with `
 
 - `$randomString(n)`: Generates a random string with `n` characters.
 - `$randomNumber(n)`: Generates a random number with `n` digits.
-- `$oneOfList('file.json')`: Randomly selects an item from a list in the specified file (the file must be in folder `./tests/lists`).
+- `$oneOfList('file.js')`: Randomly selects an item from a list in the specified file (the file must be in folder `./tests/lists`).
 - `$generateUUID()`: Generates a UUID v4.
 
 #### Usage example
 
 1. Create a JSON template, for example in `tests/payloads/template.json`:
 
-    ```json
-   {
-     "id": "$generateUUID()",
-     "name": "$oneOfList('names.js')",
-     "phone": "$oneOfList('phones.js')",
-     "node": {
-       "value": "$randomString(10)",
-       "name": "$randomString(20)",
-       "int": "$randomNumber(4)"
-     },
-     "otherNode": {
-       "fixValue": "abc",
-       "randomString": "$randomString(40)"
-     }
-   }
+    ```js
+   const sampleTemplate = {
+       id: "$generateUUID()",
+       name: "$oneOfList('names.js')",
+       phone: "$oneOfList('phones.js')",
+       address: "$oneOfList('addresses.js')",
+       node: {
+           value: "$randomString(10)",
+           name: "$randomString(20)",
+           int: "$randomNumber(4)"
+       },
+       otherNode: {
+           fixValue: "abc",
+           randomString: "$randomString(40)"
+       }
+   };
+   
+   export default sampleTemplate;
     ```
 
 2. In your test, import the template and the processor:
@@ -56,18 +59,24 @@ The template processor reads a JSON object and replaces values that start with `
 
    ```json
    {
-       "id": "11544dfa-528a-4077-9870-febdc8cb56c5",
-       "name": "Priscila Pinto",
-       "phone": "(110) 99245-6789",
-       "node": {
-          "value": "hpzm0Vzc8u",
-          "name": "0LltkoLhImmkgDCT5p9l",
-          "int": 8578
-       },
-       "otherNode": {
-          "fixValue": "abc",
-          "randomString": "Ga2LlcRJpkjRkUujBO3IkXt9CA2pFOqMmR3isDDQ"
-       }
+     "id": "770b8e79-1b54-47b0-b603-03a01de48f83",
+     "name": "Gabriel Martins",
+     "phone": "(55) 99390-1234",
+     "address": {
+       "street": "Praça da Liberdade, 789",
+       "city": "Belo Horizonte",
+       "state": "MG",
+       "zip": "30123-456"
+     },
+     "node": {
+       "value": "JXbYNe2JKj",
+       "name": "uSCTn8i4gCWctPYK7AXL",
+       "int": 3988
+     },
+     "otherNode": {
+       "fixValue": "abc",
+       "randomString": "Apm5asVzXDOBtVMt0itSzdzLdHACZp6xuvsqV9Cs"
+     }
    }
     ```
 
